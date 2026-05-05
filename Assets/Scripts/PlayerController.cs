@@ -169,6 +169,8 @@ public class PlayerController : MonoBehaviour
     {
         vel = Vector3.zero;
 
+        float currentGravityY = rb.linearVelocity.y;
+
         Vector3 flatForward = cameraLookerTransform.forward;
         flatForward.y = 0;
         Vector3 flatRight = cameraLookerTransform.right;
@@ -176,30 +178,36 @@ public class PlayerController : MonoBehaviour
 
         moveVector = (flatForward.normalized * smoothedInput.y) + (flatRight.normalized * smoothedInput.x);
 
-        vel = moveVector * speed;
-
-        if(applyingRunForce)
+        if (GrapplingHook.Instance != null && GrapplingHook.Instance.IsGrappling)
         {
-            vel += new Vector3(cameraLookerTransform.forward.x, 0, cameraLookerTransform.forward.z).normalized * runForce;
+            rb.AddForce(moveVector * (speed * 0.5f), ForceMode.Acceleration);
         }
-
-        if(jumping)
+        else
         {
-            vel.y = jumpCurve.Evaluate(1f - (jumpTimer / jumpDuration));
- 
-            vel += jumpDirection * jumpDirectionCurve.Evaluate(1f - jumpTimer / jumpDuration);
+            vel = moveVector * speed;
 
-            if (touchingGround)
+            if (applyingRunForce)
             {
-                if (vel.y < 0f) vel.y = 0f;
+                vel += new Vector3(cameraLookerTransform.forward.x, 0, cameraLookerTransform.forward.z).normalized * runForce;
             }
-        }
-        else if(!touchingGround)
-        {
-            vel.y = jumpCurve.Evaluate(1f);
-        }
 
-        rb.linearVelocity = vel;
+            if (jumping)
+            {
+                vel.y = jumpCurve.Evaluate(1f - (jumpTimer / jumpDuration));
+                vel += jumpDirection * jumpDirectionCurve.Evaluate(1f - jumpTimer / jumpDuration);
+
+                if (touchingGround)
+                {
+                    if (vel.y < 0f) vel.y = 0f;
+                }
+            }
+            else
+            {
+                vel.y = currentGravityY;
+            }
+
+            rb.linearVelocity = vel;
+        }
     }
 
     public void StopUpdate()
@@ -250,13 +258,14 @@ public class PlayerController : MonoBehaviour
         Ray[] rays = new Ray[4];
         Vector3 start = transform.position + (transform.up * botRayHeight);
         Vector3 offset = new Vector3(botRayOffset, 0, botRayOffset);
-        rays[0] = new Ray(start + offset, -transform.up + offset);
+        offset = new Vector3(botRayOffset, 0, botRayOffset);
+        rays[0] = new Ray(start + offset, -transform.up);
         offset = new Vector3(-botRayOffset, 0, botRayOffset);
-        rays[1] = new Ray(start + offset, -transform.up + offset);
+        rays[1] = new Ray(start + offset, -transform.up);
         offset = new Vector3(botRayOffset, 0, -botRayOffset);
-        rays[2] = new Ray(start + offset, -transform.up + offset);
+        rays[2] = new Ray(start + offset, -transform.up);
         offset = new Vector3(-botRayOffset, 0, -botRayOffset);
-        rays[3] = new Ray(start + offset, -transform.up + offset);
+        rays[3] = new Ray(start + offset, -transform.up);
 
         for (int i = 0; i < 4; i++)
         {
