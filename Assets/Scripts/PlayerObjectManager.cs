@@ -14,6 +14,8 @@ public class PlayerObjectManager : MonoBehaviour
         objectsParent.transform.localPosition = Vector3.zero;
         objectsParent.transform.localEulerAngles = Vector3.zero;
         objectsParent.transform.localScale = Vector3.one;
+
+        playerObjects = FindObjectsByType<PlayerObject>(FindObjectsSortMode.None);
     }
 
     [SerializeField] GameObject objectsParent;

@@ -26,6 +26,5 @@ public enum InteractionType
     displayHUDElement,
     playSound,
     setCheckpoint,
-    killPlayer,
-    teleportPlayer
+    killPlayer
 }

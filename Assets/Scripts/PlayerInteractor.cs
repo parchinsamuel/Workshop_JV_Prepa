@@ -42,6 +42,14 @@ public class PlayerInteractor : MonoBehaviour
         if (Physics.Raycast(ray, out hit, selectionDistance))
         {
             objectSelected = hit.collider.GetComponent<InteractiveObject>();
+
+            if(objectSelected != null)
+            {
+                if(objectSelected.interactions.Length <= 0)
+                {
+                    objectSelected = null;
+                }
+            }
         }
         else
         {
@@ -89,11 +97,13 @@ public class PlayerInteractor : MonoBehaviour
 
         }
 
-        objectInteracting.interactionID = interaction.nextInteractionID;
-        if(objectInteracting.interactionID == interaction.nextInteractionID)
+        if (objectInteracting.interactionID == interaction.nextInteractionID)
         {
             interaction.playNextInteractionInstantly = false;
         }
+
+        objectInteracting.interactionID = interaction.nextInteractionID;
+
 
         CursorController.Instance.InteractAnim();
 
@@ -139,9 +149,6 @@ public class PlayerInteractor : MonoBehaviour
                 break;
             case InteractionType.killPlayer:
                 GameManager.Instance.KillPlayer();
-                break;
-            case InteractionType.teleportPlayer:
-                PlayerController.Instance.transform.position = InteractiveObjectFromName(interaction.stringArg).transform.position;
                 break;
         }
 
