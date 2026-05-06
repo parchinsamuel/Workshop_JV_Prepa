@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     {
         Instance = this;
         startYScale = transform.localScale.y;
+        playerObj = gameObject.transform;
     }
 
     public Vector2 input;
@@ -60,19 +61,21 @@ public class PlayerController : MonoBehaviour
     [Header("Slide")]
     [SerializeField] private Transform playerObj;
 
-    [SerializeField] private float maxSlideTime;
+    [SerializeField] private float maxSlideTime = 1f;
     [SerializeField] private float slideForce = 10f;
 
     [SerializeField] private float slideVelocityMultiplier = 1.5f;
     [SerializeField] private float minSlideSpeed = 5f;
     [SerializeField] private float maxSlideSpeed = 15f;
 
-    [SerializeField] private float slideYScale;
+    [SerializeField] private float slideYScale = 0.5f;
 
     [SerializeField] private float minSlideTime = 0.5f;
 
     [SerializeField] private float slopeAngleStartThreshold = 5f;
     [SerializeField] private float slopeDotThreshold = 0.1f;
+
+    [SerializeField] private float groundStickForce = 20f;
 
     private float startYScale;
     private float slideTimer;
@@ -260,12 +263,14 @@ public class PlayerController : MonoBehaviour
             slopeMoveDir = GetSlopeMoveDirection();
         }
 
-        if(onSlope)
+        if (onSlope)
         {
             Vector3 inputOnSlope = Vector3.ProjectOnPlane(inputDirection, currentSlopeNormal).normalized;
             Vector3 finalDir = (slopeMoveDir * 0.9f + (inputOnSlope * 0.1f)).normalized;
 
             rb.AddForce(finalDir * slideForce, ForceMode.Force);
+
+            rb.AddForce(-currentSlopeNormal * groundStickForce, ForceMode.Force);
 
             float downDot = Vector3.Dot(rb.linearVelocity.normalized, slopeMoveDir);
 
@@ -298,6 +303,12 @@ public class PlayerController : MonoBehaviour
     public void MoveUpdate()
     {
         vel = Vector3.zero;
+
+        if (touchingGround && !jumping)
+        {
+            vel.y = -groundStickForce;
+            Debug.Log("Applying ground stick force: " + vel.y);
+        }
 
         Vector3 flatForward = cameraLookerTransform.forward;
         flatForward.y = 0;
@@ -393,17 +404,21 @@ public class PlayerController : MonoBehaviour
     void GroundUpdate()
     {
         touchingGround = false;
+       
 
         Ray[] rays = new Ray[4];
         Vector3 start = transform.position + (transform.up * botRayHeight);
         Vector3 offset = new Vector3(botRayOffset, 0, botRayOffset);
-        rays[0] = new Ray(start + offset, -transform.up + offset);
+        rays[0] = new Ray(start + offset, -transform.up);
+
         offset = new Vector3(-botRayOffset, 0, botRayOffset);
-        rays[1] = new Ray(start + offset, -transform.up + offset);
+        rays[1] = new Ray(start + offset, -transform.up);
+
         offset = new Vector3(botRayOffset, 0, -botRayOffset);
-        rays[2] = new Ray(start + offset, -transform.up + offset);
+        rays[2] = new Ray(start + offset, -transform.up);
+
         offset = new Vector3(-botRayOffset, 0, -botRayOffset);
-        rays[3] = new Ray(start + offset, -transform.up + offset);
+        rays[3] = new Ray(start + offset, -transform.up);
 
         for (int i = 0; i < 4; i++)
         {
@@ -426,6 +441,9 @@ public class PlayerController : MonoBehaviour
             currentSlopeNormal = Vector3.up;
             currentSlopeAngle = 0f;
         }
+
+        //Debug.Log("Ground check" + touchingGround);
+        //Debug.Log( "current slope angle"+currentSlopeAngle);
 
         //touchingGround = Physics.Raycast(transform.position + (transform.up * botRayHeight), -transform.up, botRaySize, ~ignoredLayer);
     }
