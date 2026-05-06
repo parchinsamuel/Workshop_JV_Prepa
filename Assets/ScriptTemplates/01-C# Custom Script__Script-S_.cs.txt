@@ -1,0 +1,16 @@
+﻿using UnityEngine;
+
+#ROOTNAMESPACEBEGIN#
+//[DisallowMultipleComponent]
+//[RequireComponent(typeof())]
+public class #SCRIPTNAME# : MonoBehaviour
+{
+    //[Header("Settings")]
+
+    //[Header("References")]
+
+    //[Header("Inputs")]
+
+    //[Header("Outputs")]
+}
+#ROOTNAMESPACEEND#
