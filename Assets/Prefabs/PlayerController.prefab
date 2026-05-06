@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 6892843310883507806}
   - component: {fileID: 1208152197622673669}
   - component: {fileID: 5818210144606931579}
+  - component: {fileID: 3159696666717084286}
   m_Layer: 3
   m_Name: PlayerController
   m_TagString: Player
@@ -552,6 +553,31 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   switchingSpeed: 0.3
+--- !u!114 &3159696666717084286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894744867201846029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cfea5ec730d9d46b6b4cb0fc13f874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrapplingHook
+  DistanceMax: 30
+  HangingLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  Elasticite: 7
+  ForceRessort: 15
+  MasseEchelle: 4.5
+  forceImpulsionInitiale: 30
+  ratioRaccourcissement: 0.2
+  MarqueurVisuel: {fileID: 6282589225065979500, guid: 63486350cbb36da42a9b27e6269df618, type: 3}
+  FovEnGrappin: 100
+  VitesseTransitionFov: 5
+  IsGrappling: 0
 --- !u!1 &2356147530306337099
 GameObject:
   m_ObjectHideFlags: 0
