@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        startYScale = transform.localScale.y;
     }
 
     public Vector2 input;
@@ -52,6 +53,35 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public bool running;
     public bool applyingRunForce;
+
+    [Header("Input")]
+    [SerializeField] private KeyCode _slideKey = KeyCode.LeftControl;
+
+    [Header("Slide")]
+    [SerializeField] private Transform playerObj;
+
+    [SerializeField] private float maxSlideTime;
+    [SerializeField] private float slideForce = 10f;
+
+    [SerializeField] private float slideVelocityMultiplier = 1.5f;
+    [SerializeField] private float minSlideSpeed = 5f;
+    [SerializeField] private float maxSlideSpeed = 15f;
+
+    [SerializeField] private float slideYScale;
+
+    [SerializeField] private float minSlideTime = 0.5f;
+
+    [SerializeField] private float slopeAngleStartThreshold = 5f;
+    [SerializeField] private float slopeDotThreshold = 0.1f;
+
+    private float startYScale;
+    private float slideTimer;
+    private bool sliding;
+
+    private Vector3 currentSlopeNormal = Vector3.up;
+    private float currentSlopeAngle = 0f;
+
+    private Vector2 slideInput;
 
     public void PlayerControlUpdate()
     {
@@ -107,6 +137,8 @@ public class PlayerController : MonoBehaviour
                         StartRunning();
                     }
                 }
+
+                
             }
 
 
@@ -114,6 +146,10 @@ public class PlayerController : MonoBehaviour
             {
                 applyingRunForce = true;
             }
+        }
+        if (Input.GetKeyDown(_slideKey) && touchingGround && !sliding)
+        {
+            StartSlide();
         }
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -165,6 +201,100 @@ public class PlayerController : MonoBehaviour
         running = false;
     }
 
+
+    void StartSlide()
+    {
+        sliding = true;
+
+        slideInput = input;
+
+        playerObj.localScale = new Vector3(playerObj.localScale.x, slideYScale, playerObj.localScale.z);
+
+        rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+
+        Vector3 flatVelocity = rb.linearVelocity;
+        flatVelocity.y = 0f;
+
+        float currentSpeed = flatVelocity.magnitude;
+
+        float finalSlideSpeed = Mathf.Clamp(
+            currentSpeed * slideVelocityMultiplier,
+            minSlideSpeed,
+            maxSlideSpeed
+        );
+
+        Vector3 slideDirection;
+
+        if (input.sqrMagnitude > 0.01f)
+        {
+            Vector3 flatForward = cameraLookerTransform.forward;
+            flatForward.y = 0f;
+
+            Vector3 flatRight = cameraLookerTransform.right;
+            flatRight.y = 0f;
+
+            slideDirection = flatForward.normalized * input.y + flatRight.normalized * input.x;
+        }
+        else
+        {
+            slideDirection = cameraLookerTransform.forward;
+            slideDirection.y = 0f;
+        }
+
+        slideDirection.Normalize();
+
+        rb.linearVelocity = slideDirection * finalSlideSpeed + Vector3.up * rb.linearVelocity.y;
+
+        bool wasMoving = currentSpeed > 0.1f;
+        slideTimer = wasMoving ? maxSlideTime : minSlideTime;
+    }
+
+    void SlidingMovement()
+    {
+        Vector3 inputDirection = playerObj.forward * slideInput.y + playerObj.right * slideInput.x;
+
+        bool onSlope = OnSlope();
+        Vector3 slopeMoveDir = Vector3.zero;
+        if (onSlope)
+        {
+            slopeMoveDir = GetSlopeMoveDirection();
+        }
+
+        if(onSlope)
+        {
+            Vector3 inputOnSlope = Vector3.ProjectOnPlane(inputDirection, currentSlopeNormal).normalized;
+            Vector3 finalDir = (slopeMoveDir * 0.9f + (inputOnSlope * 0.1f)).normalized;
+
+            rb.AddForce(finalDir * slideForce, ForceMode.Force);
+
+            float downDot = Vector3.Dot(rb.linearVelocity.normalized, slopeMoveDir);
+
+            bool slidingDownSlope = rb.linearVelocity.sqrMagnitude > 0.01f && downDot > slopeDotThreshold;
+
+            if (!slidingDownSlope)
+            {
+                slideTimer -= Time.deltaTime * 2f;
+            }
+        }
+        else
+        {
+            Vector3 dir = (inputDirection.sqrMagnitude > 0.01f) ? inputDirection.normalized : playerObj.forward;
+            rb.AddForce(dir * slideForce, ForceMode.Force);
+
+            slideTimer -= Time.deltaTime;
+        }
+
+        if (slideTimer <= 0)
+            StopSlide();
+    }
+
+    void StopSlide()
+    {
+        sliding = false;
+
+        playerObj.localScale = new Vector3(playerObj.localScale.x, startYScale, playerObj.localScale.z);
+    }
+
     public void MoveUpdate()
     {
         vel = Vector3.zero;
@@ -178,25 +308,42 @@ public class PlayerController : MonoBehaviour
 
         vel = moveVector * speed;
 
-        if(applyingRunForce)
+        if (sliding)
         {
-            vel += new Vector3(cameraLookerTransform.forward.x, 0, cameraLookerTransform.forward.z).normalized * runForce;
-        }
+            vel = Vector3.zero;
 
-        if(jumping)
-        {
-            vel.y = jumpCurve.Evaluate(1f - (jumpTimer / jumpDuration));
- 
-            vel += jumpDirection * jumpDirectionCurve.Evaluate(1f - jumpTimer / jumpDuration);
+            SlidingMovement();
+            vel = rb.linearVelocity;
 
-            if (touchingGround)
+            if (sliding && !touchingGround)
             {
-                if (vel.y < 0f) vel.y = 0f;
+                StopSlide();
+                vel.y = jumpCurve.Evaluate(1f);
+
             }
         }
-        else if(!touchingGround)
+        else
         {
-            vel.y = jumpCurve.Evaluate(1f);
+            if (applyingRunForce)
+            {
+                vel += new Vector3(cameraLookerTransform.forward.x, 0, cameraLookerTransform.forward.z).normalized * runForce;
+            }
+
+            if(jumping)
+            {
+                vel.y = jumpCurve.Evaluate(1f - (jumpTimer / jumpDuration));
+ 
+                vel += jumpDirection * jumpDirectionCurve.Evaluate(1f - jumpTimer / jumpDuration);
+
+                if (touchingGround)
+                {
+                    if (vel.y < 0f) vel.y = 0f;
+                }
+            }
+            else if(!touchingGround)
+            {
+                vel.y = jumpCurve.Evaluate(1f);
+            }
         }
 
         rb.linearVelocity = vel;
@@ -267,8 +414,33 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //touchingGround = Physics.Raycast(transform.position + (transform.up * botRayHeight), -transform.up, botRaySize, ~ignoredLayer);
+        RaycastHit hit;
+        Vector3 centerStart = transform.position + (transform.up * botRayHeight);
+        if (Physics.Raycast(centerStart, -transform.up, out hit, botRaySize + 0.1f, ~ignoredLayer))
+        {
+            currentSlopeNormal = hit.normal;
+            currentSlopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+        }
+        else
+        {
+            currentSlopeNormal = Vector3.up;
+            currentSlopeAngle = 0f;
+        }
 
+        //touchingGround = Physics.Raycast(transform.position + (transform.up * botRayHeight), -transform.up, botRaySize, ~ignoredLayer);
+    }
+
+    bool OnSlope()
+    {
+        return touchingGround && currentSlopeAngle > slopeAngleStartThreshold;
+    }
+
+    Vector3 GetSlopeMoveDirection()
+    {
+        Vector3 down = Vector3.down;
+        Vector3 slopeDir = Vector3.ProjectOnPlane(down, currentSlopeNormal);
+        if (slopeDir.sqrMagnitude < 0.0001f) return Vector3.zero;
+        return slopeDir.normalized;
     }
 
     public void Die()
