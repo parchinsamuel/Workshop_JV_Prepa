@@ -20,6 +20,11 @@ public class GrapplingHook : MonoBehaviour
     [Header("Feedback Visuel")]
     public GameObject MarqueurVisuel;
 
+    [Header("Game Feel : Caméra")]
+    public float FovEnGrappin = 100f;
+    public float VitesseTransitionFov = 5f;
+    private float _fovDeBase;
+
     [HideInInspector] public bool IsGrappling = false;
 
     private SpringJoint _joint;
@@ -33,6 +38,8 @@ public class GrapplingHook : MonoBehaviour
         {
             MarqueurVisuel.SetActive(false);
         }
+
+        _fovDeBase = Camera.main.fieldOfView;
     }
 
     private void Update()
@@ -46,6 +53,10 @@ public class GrapplingHook : MonoBehaviour
         {
             ArreterRayon();
         }
+
+        //float targetFov = IsGrappling ? FovEnGrappin : _fovDeBase;
+
+        //Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, targetFov, Time.deltaTime * VitesseTransitionFov);
     }
 
     void LancerRayon()
@@ -68,9 +79,10 @@ public class GrapplingHook : MonoBehaviour
             _joint.damper = Elasticite;
             _joint.massScale = MasseEchelle;
 
-            Vector3 directionBalancier = Camera.main.transform.forward;
+            Vector3 directionCorde = (hit.point - transform.position).normalized;
 
-            //Vector3 directionTraction = (hit.point - transform.position).normalized;
+            Vector3 directionBalancier = Vector3.Cross(Camera.main.transform.right, directionCorde).normalized;
+
             _rb.AddForce(directionBalancier * forceImpulsionInitiale, ForceMode.Impulse);
 
             if (MarqueurVisuel != null)

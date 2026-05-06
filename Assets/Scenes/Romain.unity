@@ -2791,7 +2791,7 @@ MonoBehaviour:
   rotX: 0
   normalZoom: 80
   runningZoom: 95
-  runningZoomSpeed: 100
+  runningZoomSpeed: 10
   mouseInputVector: {x: 0, y: 0}
   cameraAnimationTransform: {fileID: 1103868006}
   resettingSpeed: 0.04
@@ -2986,6 +2986,8 @@ MonoBehaviour:
   forceImpulsionInitiale: 30
   ratioRaccourcissement: 0.2
   MarqueurVisuel: {fileID: 932633869}
+  FovEnGrappin: 100
+  VitesseTransitionFov: 5
   IsGrappling: 0
 --- !u!1 &705507993
 GameObject:

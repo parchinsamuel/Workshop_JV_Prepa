@@ -87,19 +87,24 @@ public class CameraController : MonoBehaviour
 
     float currentZoom;
     float zoomSpeed;
-    
+
     public void ZoomUpdate()
     {
-        float zoom = normalZoom;
+        float targetZoom = normalZoom;
+        float transitionSpeed = runningZoomSpeed;
 
-        zoomSpeed = runningZoomSpeed;
-
-        if (PlayerController.Instance.applyingRunForce)
+        if (GrapplingHook.Instance != null && GrapplingHook.Instance.IsGrappling)
         {
-            zoom = runningZoom;
+            targetZoom = GrapplingHook.Instance.FovEnGrappin;
+            transitionSpeed = GrapplingHook.Instance.VitesseTransitionFov;
+        }
+        else if (PlayerController.Instance.applyingRunForce)
+        {
+            targetZoom = runningZoom;
+            transitionSpeed = runningZoomSpeed;
         }
 
-        currentZoom = Mathf.MoveTowards(currentZoom, zoom, zoomSpeed * Time.deltaTime);
+        currentZoom = Mathf.Lerp(currentZoom, targetZoom, transitionSpeed * Time.deltaTime);
         Camera.main.fieldOfView = currentZoom;
     }
 

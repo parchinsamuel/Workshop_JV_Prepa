@@ -180,7 +180,9 @@ public class PlayerController : MonoBehaviour
 
         if (GrapplingHook.Instance != null && GrapplingHook.Instance.IsGrappling)
         {
-            rb.AddForce(moveVector * (speed * 0.5f), ForceMode.Acceleration);
+            float multiplicateurControleAerien = 0.2f;
+
+            rb.AddForce(moveVector * (speed * multiplicateurControleAerien), ForceMode.Acceleration);
         }
         else
         {
