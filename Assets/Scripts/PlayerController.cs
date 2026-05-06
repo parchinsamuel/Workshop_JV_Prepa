@@ -298,7 +298,23 @@ public class PlayerController : MonoBehaviour
 
     public void MoveUpdate()
     {
+        if (GrapplingHook.Instance != null && GrapplingHook.Instance.IsGrappling)
+        {
+            Vector3 flatForwardGrapple = cameraLookerTransform.forward;
+            flatForwardGrapple.y = 0;
+            Vector3 flatRightGrapple = cameraLookerTransform.right;
+            flatRightGrapple.y = 0;
+
+            Vector3 grappleMoveVector = (flatForwardGrapple.normalized * smoothedInput.y) + (flatRightGrapple.normalized * smoothedInput.x);
+
+            rb.AddForce(grappleMoveVector * (speed * 0.2f), ForceMode.Acceleration);
+
+            return;
+        }
+
         vel = Vector3.zero;
+
+        float currentGravityY = rb.linearVelocity.y;
 
         if (touchingGround && !jumping)
         {
@@ -325,8 +341,7 @@ public class PlayerController : MonoBehaviour
             if (sliding && !touchingGround)
             {
                 StopSlide();
-                vel.y = jumpCurve.Evaluate(1f);
-
+                vel.y = currentGravityY;
             }
         }
         else
@@ -349,7 +364,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (!touchingGround)
             {
-                vel.y = jumpCurve.Evaluate(1f);
+                vel.y = currentGravityY;
             }
         }
 
