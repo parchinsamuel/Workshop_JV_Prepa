@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9090800024472008812}
   - component: {fileID: 1100590126396156991}
   - component: {fileID: 3542551717600683285}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: poutre ref (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -370,7 +370,7 @@ GameObject:
   - component: {fileID: 8233530924515191713}
   - component: {fileID: 7404819076557761074}
   - component: {fileID: 6156095347785832437}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: plateforme_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -726,7 +726,7 @@ GameObject:
   - component: {fileID: 2526172698502501419}
   - component: {fileID: 9181884352341665545}
   - component: {fileID: 7202494796949229506}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1864,7 +1864,7 @@ GameObject:
   - component: {fileID: 1659746919636049761}
   - component: {fileID: 6610858052741864770}
   - component: {fileID: 6176403356278619232}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: poutre (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2220,7 +2220,7 @@ GameObject:
   - component: {fileID: 5768273458635634612}
   - component: {fileID: 3146121446317212853}
   - component: {fileID: 7169103724453624278}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3358,7 +3358,7 @@ GameObject:
   - component: {fileID: 2106334358024185923}
   - component: {fileID: 7703661640055877921}
   - component: {fileID: 7040642207594014669}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3714,7 +3714,7 @@ GameObject:
   - component: {fileID: 181623613305920361}
   - component: {fileID: 7914180851505861859}
   - component: {fileID: 1050738813041282186}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: poutre (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4070,7 +4070,7 @@ GameObject:
   - component: {fileID: 949617936885403080}
   - component: {fileID: 5017417852235917460}
   - component: {fileID: 7257311141320437211}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5203,7 +5203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2322923557060410882}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: obstacle couloir_1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5249,7 +5249,7 @@ GameObject:
   - component: {fileID: 4475596671629461335}
   - component: {fileID: 9069649090323787489}
   - component: {fileID: 3525350909314955532}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube ref (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5600,7 +5600,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4910148721459185034}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir cerceau
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5646,7 +5646,7 @@ GameObject:
   - component: {fileID: 9098832030012698751}
   - component: {fileID: 8908141698741867332}
   - component: {fileID: 2887157224626514631}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube ref (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6002,7 +6002,7 @@ GameObject:
   - component: {fileID: 4923064864121080010}
   - component: {fileID: 4137359831426923615}
   - component: {fileID: 4703766571608428732}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7140,7 +7140,7 @@ GameObject:
   - component: {fileID: 4684806960001692605}
   - component: {fileID: 5553026461774453062}
   - component: {fileID: 976497231852260696}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: poutre (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7496,7 +7496,7 @@ GameObject:
   - component: {fileID: 6830163989599197414}
   - component: {fileID: 8891086814976231593}
   - component: {fileID: 8891590362718707569}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8629,7 +8629,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1309494283855698292}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Level_allan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8674,7 +8674,7 @@ GameObject:
   - component: {fileID: 8522733459219155053}
   - component: {fileID: 8607654976305407465}
   - component: {fileID: 4282914183180503969}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9812,7 +9812,7 @@ GameObject:
   - component: {fileID: 2927451191531970148}
   - component: {fileID: 7476588668206917513}
   - component: {fileID: 6849446134234470083}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: poutre (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10168,7 +10168,7 @@ GameObject:
   - component: {fileID: 4783846236424636175}
   - component: {fileID: 3043579711006525506}
   - component: {fileID: 9154669440702582219}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11306,7 +11306,7 @@ GameObject:
   - component: {fileID: 6009143363010469893}
   - component: {fileID: 5561973891615970651}
   - component: {fileID: 6842578078674622929}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube ref (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11662,7 +11662,7 @@ GameObject:
   - component: {fileID: 102360605405331456}
   - component: {fileID: 1520838216356662337}
   - component: {fileID: 1347699114775937698}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12018,7 +12018,7 @@ GameObject:
   - component: {fileID: 5654575028608729726}
   - component: {fileID: 6915251363954301219}
   - component: {fileID: 2290077299811589087}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13156,7 +13156,7 @@ GameObject:
   - component: {fileID: 7908084599268939539}
   - component: {fileID: 8971824704956745115}
   - component: {fileID: 6514133747513315185}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14289,7 +14289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4322063944777801904}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: group cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14328,7 +14328,7 @@ GameObject:
   - component: {fileID: 8045824651619794398}
   - component: {fileID: 833055219164527691}
   - component: {fileID: 5404949708572927916}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube ref (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14684,7 +14684,7 @@ GameObject:
   - component: {fileID: 77594581490771844}
   - component: {fileID: 2351933779200871716}
   - component: {fileID: 4058762663599039274}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15822,7 +15822,7 @@ GameObject:
   - component: {fileID: 6532005861104110925}
   - component: {fileID: 2545492609417863875}
   - component: {fileID: 4805354770540575370}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube ref (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16178,7 +16178,7 @@ GameObject:
   - component: {fileID: 2614419982297394608}
   - component: {fileID: 7189856887053582253}
   - component: {fileID: 3233539816630208018}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17316,7 +17316,7 @@ GameObject:
   - component: {fileID: 1474506973378406674}
   - component: {fileID: 4100781863744010792}
   - component: {fileID: 8180697382805900598}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: poutre ref
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17672,7 +17672,7 @@ GameObject:
   - component: {fileID: 6432488723031477689}
   - component: {fileID: 575667404757414077}
   - component: {fileID: 2179365620976172423}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube ref (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18028,7 +18028,7 @@ GameObject:
   - component: {fileID: 8474982236058375735}
   - component: {fileID: 6186427296715406288}
   - component: {fileID: 8501176786526830425}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube ref (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18384,7 +18384,7 @@ GameObject:
   - component: {fileID: 3535690632630921615}
   - component: {fileID: 6783620925847068541}
   - component: {fileID: 4895551312512064539}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: couloir_1 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19522,7 +19522,7 @@ GameObject:
   - component: {fileID: 3633435869050089529}
   - component: {fileID: 2634495369367509191}
   - component: {fileID: 6611352650041538573}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube ref (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19873,7 +19873,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 486303514165280409}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: raccourci
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19911,7 +19911,7 @@ GameObject:
   - component: {fileID: 3814704796841403937}
   - component: {fileID: 8078891936951562429}
   - component: {fileID: 30854001871611727}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: poutre (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
