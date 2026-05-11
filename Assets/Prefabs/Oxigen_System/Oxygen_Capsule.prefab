@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c1a9ce540ba6454d8f72896cf0b1f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OxygenCapsule
-  oxygenManager: {fileID: 0}
+  oxygenManager: {fileID: 3863007807860487463, guid: fd044c2883066a546b6d9ef3e0ae3243, type: 3}
 --- !u!136 &9134317107106203736
 CapsuleCollider:
   m_ObjectHideFlags: 0
