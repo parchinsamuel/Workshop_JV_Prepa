@@ -40,10 +40,11 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public float jumpTimer;
-    [HideInInspector]
+    //[HideInInspector]
     public bool jumping;
-    [HideInInspector]
-    public bool touchingGround;
+    //[HideInInspector]
+    public bool fullyTouchingGround;
+    public bool partiallyTouchingGround;
 
     Vector3 jumpDirection;
     Vector3 moveVector;
@@ -75,10 +76,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float slopeDotThreshold = 0.1f;
 
     [SerializeField] private float groundStickForce = 20f;
+    [SerializeField] private float gravity = -20f;
 
     private float startYScale;
     private float slideTimer;
-    private bool sliding;
+    [SerializeField] private bool sliding;
 
     private Vector3 currentSlopeNormal = Vector3.up;
     private float currentSlopeAngle = 0f;
@@ -106,7 +108,7 @@ public class PlayerController : MonoBehaviour
         {
             input.y += 1;
 
-            if (!touchingGround)
+            if (!partiallyTouchingGround)
             {
                 if (Input.GetKeyDown(KeyCode.LeftShift))
                 {
@@ -146,7 +148,7 @@ public class PlayerController : MonoBehaviour
                 applyingRunForce = true;
             }
         }
-        if (Input.GetKeyDown(_slideKey) && touchingGround && !sliding)
+        if (Input.GetKeyDown(_slideKey) && partiallyTouchingGround && !sliding)
         {
             StartSlide();
         }
@@ -312,15 +314,9 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        vel = Vector3.zero;
+        vel = rb.linearVelocity;
 
-        float currentGravityY = rb.linearVelocity.y;
-
-        if (touchingGround && !jumping)
-        {
-            vel.y = -groundStickForce;
-            Debug.Log("Applying ground stick force: " + vel.y);
-        }
+        float currentGravityY = vel.y;
 
         Vector3 flatForward = cameraLookerTransform.forward;
         flatForward.y = 0;
@@ -338,7 +334,7 @@ public class PlayerController : MonoBehaviour
             SlidingMovement();
             vel = rb.linearVelocity;
 
-            if (sliding && !touchingGround)
+            if (sliding && !partiallyTouchingGround)
             {
                 StopSlide();
                 vel.y = currentGravityY;
@@ -357,14 +353,14 @@ public class PlayerController : MonoBehaviour
 
                 vel += jumpDirection * jumpDirectionCurve.Evaluate(1f - jumpTimer / jumpDuration);
 
-                if (touchingGround)
+                if (partiallyTouchingGround)
                 {
                     if (vel.y < 0f) vel.y = 0f;
                 }
             }
-            else if (!touchingGround)
+            else if (!fullyTouchingGround)
             {
-                vel.y = currentGravityY;
+                vel.y = jumpCurve.Evaluate(1f);
             }
         }
 
@@ -394,7 +390,7 @@ public class PlayerController : MonoBehaviour
 
         //touchingGround = Physics.BoxCast(transform.position + (transform.up * botRayHeight), Vector3.one * botRaySize / 2f, -transform.up, Quaternion.identity, botRaySize, ~ignoredLayer); ;
 
-        if (touchingGround)
+        if (partiallyTouchingGround)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -414,8 +410,8 @@ public class PlayerController : MonoBehaviour
 
     void GroundUpdate()
     {
-        touchingGround = false;
-
+        fullyTouchingGround = true;
+        partiallyTouchingGround = false;
 
         Ray[] rays = new Ray[4];
         Vector3 start = transform.position + (transform.up * botRayHeight);
@@ -436,9 +432,14 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(rays[i].origin, rays[i].direction * botRaySize);
             if (Physics.Raycast(rays[i], botRaySize, ~ignoredLayer))
             {
-                touchingGround = true;
+                partiallyTouchingGround = true;
+            }
+            else
+            {
+                fullyTouchingGround = false;
             }
         }
+
 
         RaycastHit hit;
         Vector3 centerStart = transform.position + (transform.up * botRayHeight);
@@ -461,7 +462,7 @@ public class PlayerController : MonoBehaviour
 
     bool OnSlope()
     {
-        return touchingGround && currentSlopeAngle > slopeAngleStartThreshold;
+        return partiallyTouchingGround && currentSlopeAngle > slopeAngleStartThreshold;
     }
 
     Vector3 GetSlopeMoveDirection()

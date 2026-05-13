@@ -63,7 +63,7 @@ public class CameraController : MonoBehaviour
             localPos = JumpAnimation();
             runningBob = Vector3.zero;
         }
-        else if (PlayerController.Instance.moving && PlayerController.Instance.touchingGround)
+        else if (PlayerController.Instance.moving && PlayerController.Instance.partiallyTouchingGround)
         {
             if (PlayerController.Instance.applyingRunForce)
             {

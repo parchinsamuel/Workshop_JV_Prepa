@@ -73,7 +73,7 @@ public class PlayerObjectAnimation : MonoBehaviour
     public bool fadeCursor;
     public void PoseUpdate()
     {
-        if (!PlayerController.Instance.touchingGround)
+        if (!PlayerController.Instance.partiallyTouchingGround)
         {
             waitingForRecovery = true;
 
